@@ -1,103 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="data:image/png;base64,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
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenAI API 信息查询</title>
+  <meta name="description" content="批量快速查询OPENAI的余额，支持可视化展现已用比例、额度、已用量、未用量、是否GPT-4、是否GPT4-32K、是否绑卡、绑卡信息、组织信息、是否有效">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="data:image/png;base64,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
 " />
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>OpenAI/ChatGPT 工具箱</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
-    <script defer src="https://cdn.bootcdn.net/ajax/libs/alpinejs/3.12.0/cdn.min.js"></script>
-    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="./gallery.html">Gallery</a>
-                    </li> -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="./about.html">About</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container kv-main">
-        <div class="page-header" x-data="{ origin: '' }" x-init="origin = window.location.origin">
-            <h2>查询 OpenaiAPI 余额</h2>
-            <p>API接口: <span class="proxy" x-text="origin" @click="copyToClipboard(origin)"></span>
-                ;支持批量查询，一行一个；点击清理可以清理失效的key。<a style="text-decoration: none;" href="/about.html">Authorization获取方法</a> </p>
-        </div>
-        <main x-data="app" x-cloak>
-            <p x-show.transition.opacity="alert" :class="alert?.type" x-text="alert?.message"></p>
-            <textarea class="form-control" rows="5" placeholder="请输入以sess-xxxx开头的Authorization" x-model="u"></textarea></p>
-            <div class="d-grid gap-2 d-sm-block">
-                <button :class="{ loading }" class="btn btn-primary me-sm-3 " :disabled="loading"
-                    @click="submit($refs)">查询</button>
-                <button class="btn btn-secondary" @click="clear">清理</button>
-            </div>
-            <p></p>
-            <div x-show.transition.opacity="total && total.length > 0" x-cloak class="card mb-3">
-                <div class="card-body table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">API KEY</th>
-                                <th scope="col">账号类型</th>
-                                <th scope="col">最高模型</th>
-                                <th scope="col">额度总量</th>
-                                <th scope="col">已用额度</th>
-                                <th scope="col">剩余额度</th>
-                                <th scope="col">过期时间</th>
-                            </tr>
-                        </thead>
-                        <tbody x-show.transition.opacity="total" x-cloak>
-                            <template x-for="(item, index) in total" :key="index">
-                                <tr>
-                                    <th scope="row" x-text="index + 1"></th>
-                                    <td x-text="item.msgkey"></td>
-                                    <td x-text="item.plan"></td>
-                                    <td x-text="item.latest_gpt"></td>
-                                    <td x-text="item.total_granted"></td>
-                                    <td x-text="item.total_used"></td>
-                                    <td x-text="item.total_available"></td>
-                                    <td x-text="item.endDate"></td>
-                                </tr>
-                            </template>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
-        <div class="page-footer"></div>
-
+  <header>
+    <div class="navbar">
+      <a class="active" href="/">首页</a>
+      <a href="./help.html">帮助</a>
+	  <a href="https://ai.itluo.com" target="_blank">AIChat</a>
     </div>
-    <footer class="footer">
-        <div class="container text-center">
-            <!-- <p class="text-muted" x-data="ip" x-init='$nextTick(() => {getipinfo()})' x-show.transition.opacity="ipinfo"
-                x-text="ipinfo"></p> -->
-            <p>本程序基于Cloudflare Pages，开源于GitHub <a href="https://github.com/x-dr/chatgptProxyAPI"
-                    target="_blank">chatgptProxyAPI</a></p>
-        </div>
-    </footer>
-    <script src="./assets/js/openai.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/js/bootstrap.min.js"></script>
+    
+    </div>
+   <h1 class="text-3xl font-semibold text-center mb-8 text-gradient" style="margin-top: -10px;">OpenAI API 信息查询</h1>
+    <p class="text-center text-gradient" style="text-align: center;">7月22日更新后，需使用sess码进行查询。使用key只能查询总额度、绑卡、GPT4和组织ID。</p>
+    <a href="https://shop.itluo.com" style="text-align: center; color: antiquewhite; text-decoration: none; font-weight: 700;">
+      <p>OpenAI账号充值/购买</p>
+    </a>
+  </header>
+
+  <div class="query">
+    <div>
+      <h2 style="display: inline-block;">输入 API KEY</h2>
+      <p style="display: inline-block; font-size: smaller;">本站不保存 KEY 信息，查询后请自行保存</p>
+    </div>
+    <textarea id="api-key-input" placeholder="请输入 API-KEY或sessID，多个可直接粘贴"></textarea>
+    <!-- API链接选择框 -->
+    <div class="api-url-container"></div>
+    <!-- API链接选择 -->
+    <div>
+      <h2 style="display: inline-block;">选择查询线路</h2>
+      <p style="display: inline-block; font-size: smaller;">支持自定义线路，官网线路需要魔法</p>
+    </div>
+    <select id="api-url-select" style="width: 49%;">
+      <option value="https://api.openai.com">【OpenAI 官方查询接口】</option>
+      <option value="https://api.itgpt.eu.org">【CloudFlare 反代接口】</option>
+      <option value="custom">【自定义接口】</option>
+    </select>
+
+    <!-- 自定义API链接输入框 -->
+    <input type="text" id="custom-url-input" placeholder="输入自定义API，填域名即可，无需https://" style="width: 45%;" />
+  </div>
+  <button :class="{ loading }" :disabled="loading" onclick="sendRequest()">查询</button>
+  <h2 id="result-head" style="visibility: hidden;">查询结果</h2>
+  <table id="result-table" style="visibility: hidden;">
+    <thead>
+      <tr>
+        <th style="width: 35px;">序号</th>
+        <th>API KEY</th>
+        <th style="width: 50px;">总额度</th>
+        <th style="width: 50px;">已使用</th>
+        <th style="width: 50px;">剩余量</th>
+        <th style="width: 100px;">已用比例</th>
+        <th style="width: 90px;">到期时间</th>
+        <th style="width: 50px;">GPT-3.5</th>
+        <th style="width: 50px;">GPT-4</th>
+        <th style="width: 50px;">32K</th>
+        <th style="width: 50px;">绑卡</th>
+        <th style="width: 220px;">绑卡信息</th>
+        <th style="width: 100px;">组织名称+邮箱+ID</th>
+        <th style="width: 50px;">是否有效</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <!--<footer>
+    <p>
+      免费体验GPT4.0<a href="https://ai.itluo.com" target="_blank">AIChat</a>
+    </p>
+  </footer>-->
+  <script src="assets/js/script.js"></script>
 </body>
 
 </html>
