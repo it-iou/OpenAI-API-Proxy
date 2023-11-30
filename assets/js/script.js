@@ -304,13 +304,12 @@ function sendRequest() {
       tableBody.appendChild(row);
 
       if (i === apiKeys.length - 1) {
-        updateExportButtonsState();
         queriedApiKeys = [];
       }
       serialNumber++;
       h2.style.visibility = 'visible';
       table.style.visibility = 'visible';
-
+      updateExportButtonsState();
       button.textContent = "查询";
       button.disabled = false;
       button.classList.remove("loading");
