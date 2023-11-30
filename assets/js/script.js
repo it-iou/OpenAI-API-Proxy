@@ -197,6 +197,8 @@ function sendRequest() {
     let apiKey = apiKeys[i].trim();
 
     if (queriedApiKeys.includes(apiKey)) {
+
+      alert(`API KEY ${apiKey} 已查询过，跳过此次查询`);
       console.log(`API KEY ${apiKey} 已查询过，跳过此次查询`);
       continue;
     }
@@ -209,8 +211,8 @@ function sendRequest() {
         } else {
           return item
         }
-      });
 
+      });
       let row = document.createElement("tr");
 
       let serialNumberCell = document.createElement("td");
@@ -218,6 +220,8 @@ function sendRequest() {
       row.appendChild(serialNumberCell);
 
       let apiKeyCell = document.createElement("td");
+      apiKeyCell.setAttribute('data-full-key', apiKey);
+      apiKeyCell.setAttribute('data-masked-key', apiKey.replace(/^(.{5}).*(.{4})$/, "$1***$2"));
       apiKeyCell.textContent = apiKey.replace(/^(.{5}).*(.{4})$/, "$1***$2");
       row.appendChild(apiKeyCell);
 
@@ -300,6 +304,7 @@ function sendRequest() {
       tableBody.appendChild(row);
 
       if (i === apiKeys.length - 1) {
+        updateExportButtonsState();
         queriedApiKeys = [];
       }
       serialNumber++;
@@ -333,3 +338,57 @@ function resetButtonState() {
   button.disabled = false;
   button.classList.remove("loading");
 }
+
+
+function exportToExcel() {
+  let table = document.getElementById("result-table");
+  let wb = XLSX.utils.table_to_book(table);
+  let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  let blob = new Blob([wbout], { type: 'application/octet-stream' });
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'api_keys.xlsx';
+  a.click();
+}
+
+function exportToTxt() {
+  let table = document.getElementById("result-table");
+  let tableBody = table.getElementsByTagName("tbody")[0];
+  let rows = tableBody.getElementsByTagName("tr");
+  let txtContent = "";
+
+  for (let i = 0; i < rows.length; i++) {
+    let cells = rows[i].getElementsByTagName("td");
+    let cellContent = cells[1].textContent; // 获取第二列的内容（API KEY）
+    txtContent += cellContent + "\n";
+  }
+
+  let blob = new Blob([txtContent], { type: "text/plain" });
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "api_keys.txt";
+  a.click();
+}
+
+function updateExportButtonsState() {
+  let tableBody = document.querySelector("#result-table tbody");
+  let hasData = tableBody.getElementsByTagName("tr").length > 0;
+
+  let exportButtons = document.querySelectorAll("button[onclick^='exportTo']");
+  exportButtons.forEach(button => {
+    button.disabled = !hasData;
+  });
+}
+
+document.getElementById('toggle-api-key').addEventListener('change', function () {
+  let apiKeyCells = document.querySelectorAll("#result-table td:nth-child(2)"); // 第二列为 API 密钥
+  apiKeyCells.forEach(cell => {
+    if (this.checked) {
+      // 显示完整的 API 密钥
+      cell.textContent = cell.getAttribute('data-full-key');
+    } else {
+      // 隐藏部分 API 密钥
+      cell.textContent = cell.getAttribute('data-masked-key');
+    }
+  });
+});
