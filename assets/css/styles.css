@@ -9,7 +9,6 @@
 
 body {
   background: url('../img/background.webp') no-repeat center center fixed;
-  /* 自定义背景图 */
   background-size: cover;
   width: 90%;
   max-width: 1400px;
@@ -18,7 +17,6 @@ body {
   padding-left: 2rem;
   padding-right: 2rem;
   color: var(--body-color);
-  /* background: var(--body-bg); */
   font-family: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
   line-height: 1.5;
   -webkit-tap-highlight-color: rgb(252, 247, 247);
@@ -202,7 +200,6 @@ footer .p {
   }
 }
 
-/* 设置API URL选择器和自定义URL输入框的样式 */
 select#api-url-select,
 input#custom-url-input {
   width: 100%;
@@ -218,13 +215,11 @@ input#custom-url-input {
   margin-top: 2vhpx;
 }
 
-/* 隐藏自定义API链接输入框 */
 input#custom-url-input {
   display: none;
   height: 50px;
 }
 
-/* 下面的代码定义了结果表格的样式 */
 #result-table {
   border-collapse: collapse;
   width: 100%;
@@ -235,7 +230,6 @@ input#custom-url-input {
   overflow: hidden;
 }
 
-/* 下面的代码定义了结果表格表头的样式 */
 #result-table th {
   background-color: var(--color-primary);
   color: #ffffff;
@@ -245,48 +239,40 @@ input#custom-url-input {
   text-align: left;
 }
 
-/* 下面的代码定义了结果表格数据单元格的样式 */
 #result-table td {
   height: 20px;
   text-align: left;
   padding: 10px 5px;
 }
 
-/* 下面的代码定义了结果表格奇数行的背景颜色 */
 #result-table tbody tr:nth-child(odd) {
   background-color: #252422;
 }
 
-/* 下面的代码定义了结果表格偶数行的背景颜色 */
 #result-table tbody tr:nth-child(even) {
   background-color: #31302d;
 }
 
-/* 下面的代码定义了结果表格表头的宽度 */
 #result-table .table-header {
   width: 25%;
 }
 
-/* 下面的代码定义了结果表格数据单元格的宽度、字体加粗和颜色 */
 #result-table .table-data {
   width: 25%;
   font-weight: bold;
   color: #1c248b;
 }
 
-/* 下面的代码定义了结果表格数据单元格的样式 */
 #result-table .status-error {
   height: 20px;
   text-align: left;
   padding: 10px 5px;
 }
 
-/* 下面的代码定义了一个类名为status-ok的样式，用于设置成功状态的文本颜色 */
 .status-ok {
   color: #2d8d2d;
 }
 
-/* 下面的代码定义了一个类名为status-error的样式，用于设置错误状态的文本颜色 */
 .status-error {
   color: #ed0808;
 }
@@ -301,7 +287,6 @@ input#custom-url-input {
   font-size: 30px;
 }
 
-/* 导航栏样式 */
 .navbar {
   background-color: transparent;
   overflow: hidden;
@@ -325,4 +310,63 @@ input#custom-url-input {
 .navbar a.active {
   background-color: rgba(255, 255, 255, 0.3);
   color: #fff;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 25px;
+  height: 15px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 1px;
+  bottom: 1px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  transform: translateX(10px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
