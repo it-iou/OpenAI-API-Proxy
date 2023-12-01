@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAI ChatGPT API 成本计算器（中文版）</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="data:image/png;base64,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"
+  />
+    <meta name="description" content="OpenAI ChatGPT API 成本计算器（中文版）是一款专门为团队和开发者设计的工具，可以帮助用户准确预算和规划他们在项目中使用ChatGPT API的成本。">
+    <meta name="keywords" content="ChatGPT, OpenAI, API, 人工智能, 成本计算, 开发者工具, OpenKey, 方便易用, 估算项目成本, 精确性高, 节省成本">
+    <meta name="author" content="openkey.cloud">
+    <link href="https://fonts.googleapis.com/css2?family=Aladin&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">OpenAI ChatGPT API 成本计算器（中文版）</h1>
+		<br>
+		<h2 class="description">
+            这是一款专门为团队和开发者设计的工具，可以帮助用户准确预算和规划他们在项目中使用ChatGPT API的成本。
+        </h2>
+        <div class="input-group">
+            <label for="word-count">输入汉字数量:</label>
+            <input type="number" id="word-count" oninput="calcularResultado()" placeholder="e.g. 1000">
+        </div>
+          <div class="word-count-buttons">
+            <button class="word-count-btn pink" data-words="10000">1万</button>
+            <button class="word-count-btn green" data-words="200000">20万</button>
+            <button class="word-count-btn orange" data-words="1000000">100万</button>
+            <button class="word-count-btn blue" data-words="5000000">500万</button>
+            <button class="word-count-btn violet" data-words="10000000">1000万</button>
+        </div>
+        <div class="input-group selstyle">
+          <div class="selstyle">
+            <label>选择语言模型:</label>
+            <select id="model">
+                <option value="chatgpt-4k">GPT-3.5-Turbo 4K</option>
+				<option value="chatgpt-16k">GPT-3.5-Turbo 16K</option>
+                <option value="gpt4-8k">GPT-4.0 8K</option>
+                <option value="gpt4-32k">GPT-4 32K</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+            <button id="calculate-btn">开始计算</button>
+        </div>
+        <div class="result-container">
+            <h2>评估成本:</h2>
+            <p id="result">$0.00</p>
+        </div>
+    </div>
+    <div class="poweredby"><a href='#about-modal' class="modal-link"><button>关于我们</button></a></div>
+    <div class="cookie-notification">
+        <p>我们使用cookies来提高您在我们网站上的浏览体验。继续使用我们的网站，即表示您同意我们使用cookies。</p>
+        <button id="cookie-accept">接受</button>
+      </div>
+      
+        <div id="about-modal" class="modal">
+          <div class="modal-content">
+            <br><br>
+            <h2>关于我们</h2>
+            <br>
+            <p>OpenAI ChatGPT API 成本计算器（中文版）是一款专门为团队和开发者设计的工具，可以帮助用户准确预算和规划他们在项目中使用ChatGPT API的成本。
+				<br><br>
+                <h3>主要特点和功能：</h3>
+				<br>
+                1) 基于中文汉字的 API 价格/成本计算器，对中文开发者更加友好；
+				<br>
+                2) 可以帮助用户估算项目成本，规划API使用；
+				<br>
+				3) 精确性高，简单易懂。
+				<br><br>
+                <h3>计算细节：</h3>
+				<br>
+				1) 模型对应的价格：
+				<br><br>
+				GPT-3.5-Turbo 4K - $0.002 / 1K tokens
+				<br>
+				GPT-3.5-Turbo 16K - $0.004 / 1K tokens
+				<br>
+				GPT-4.0 8K - $0.06 / 1K tokens
+				<br>
+				GPT-4.0 32K - $0.12 / 1K tokens
+				<br><br>
+				
+				2) 计算公式：
+				<br><br>
+				成本 = (中文字数 * 2 / 1000) * 模型价格
+				<br><br>
+				<button class="modal-close">关闭</button>
+          </div>
+        </div>
+		
+    </script><script src="assets/js/cookies.js"></script>
+    <script src="assets/js/modal.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
