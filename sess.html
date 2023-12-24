@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>ChatGPT Auth</title>
+    <link id="pagestyle" href="assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
+</head>
+
+<body class="">
+    <main class="main-content mt-0">
+        <section>
+            <div class="page-header min-vh-100">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6 d-flex flex-column mx-auto">
+                            <div class="card card-plain mt-8">
+                                <div class="card-header pb-0 text-left bg-transparent">
+                                    <h3 class="font-weight-black text-dark display-6">Sess Key</h3>
+                                    <p class="mb-0">
+                                        本服务可帮助 ChatGPT 用户使用 Refresh Token 刷新 Sess Key。
+                                        <br>如果你没有 Refresh Token，本服务对你无用。
+                                        <br>获取到的 Sess Key 有效期为<b class="text-success">90</b>天。
+										<br><span style="color: red;">注意：</span>原Refresh Token使用后立即失效，请注意保存新Refresh Token
+                                    </p>
+                                </div>
+                                <div class="card-body" id="stepTwo">
+                                    <form role="form" id="loginForm">
+                                        <label>Refresh Token</label>
+                                        <div class="mb-3">
+                                            <textarea class="form-control" name="refresh_token" id="txtSessionToken"
+                                                rows="4" placeholder="Enter refresh token" maxlength="4000"></textarea>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" id="btnGetAccessToken"
+                                                class="btn btn-dark w-100 mt-4 mb-3">获取 Sess Key</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div id="stepThree" class="card-body" style="display: none">
+                                    <h4 class="mb-3 text-success">Sess Key</h4>
+                                    <textarea class="form-control clipboard" id="sensitiveId" rows="2"
+                                        data-clipboard-target="#sensitiveId" readonly></textarea>
+                                    <span class="text-xs text-mute copy-result"
+                                        id="copyResultSensitiveId">点击文本框即可复制</span>
+
+                                    <h4 class="mb-3 text-success mt-4">Access Token</h4>
+                                    <textarea class="form-control clipboard" id="accessToken" rows="4"
+                                        data-clipboard-target="#accessToken" readonly></textarea>
+                                    <span class="text-xs text-mute copy-result"
+                                        id="copyResultAccessToken">点击文本框即可复制</span>
+
+                                    <h4 class="mb-3 text-success mt-4">Refresh Token<span style="color: red;">（注意保存）</span></h4>
+                                    <textarea class="form-control clipboard" id="refreshToken" rows="2"
+                                        data-clipboard-target="#refreshToken" readonly></textarea>
+                                    <span class="text-xs text-mute copy-result"
+                                        id="copyResultRefreshToken">点击文本框即可复制</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="position-absolute w-40 top-0 end-0 h-100 d-md-block d-none">
+                            <div class="oblique-image position-absolute fixed-top ms-auto h-100 z-index-0 bg-cover ms-n8" style="background-image: url('assets/img/image-sign-in.jpg');">
+                                <div class="blur mt-12 p-4 text-center border border-white border-radius-md position-absolute fixed-bottom m-4">
+                                    <h2 class="mt-3 text-dark font-weight-bold">OpenAI, not CloseAI.</h2>
+                                    <h6 class="text-dark text-sm mt-4">Core by SEEK. Theme by @ImYrS.</h6>
+                                    <h7 class="text-dark text-sm mt-4">由于一些你懂的原因，特申明：这是个人服务，非OpenAI的官方服务！</h7>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/clipboard.min.js"></script>
+    <script>
+        !function ($) {
+            $(function () {
+                let clipboard = new ClipboardJS(".clipboard");
+                clipboard.on("success", (e) => {
+                    e.clearSelection();
+                    updateCopyResultText(e.trigger.id, "复制成功！", 'success');
+                });
+                clipboard.on("error", (e) => {
+                    updateCopyResultText(e.trigger.id, "复制失败。", 'error');
+                });
+
+                function updateCopyResultText(textAreaId, message, eventType) {
+                    let resultId = "";
+                    if (textAreaId === "sensitiveId") {
+                        resultId = "#copyResultSensitiveId";
+                    } else if (textAreaId === "accessToken") {
+                        resultId = "#copyResultAccessToken";
+                    } else if (textAreaId === "refreshToken") {
+                        resultId = "#copyResultRefreshToken";
+                    }
+                    $(resultId).removeClass('text-danger text-success')
+                        .addClass(eventType === 'success' ? 'text-success' : 'text-danger')
+                        .text(message);
+                }
+
+                let $txtSessionToken = $("#txtSessionToken");
+                let $btnGetAccessToken = $("#btnGetAccessToken");
+
+                $txtSessionToken.focus();
+
+                $btnGetAccessToken.click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if ("" === $txtSessionToken.val()) {
+                        alert("Session Token不能为空！");
+                        $txtSessionToken.focus();
+                        return false;
+                    }
+
+                    $btnGetAccessToken.addClass('disabled').text("正在获取 Access Token...");
+
+                    $.ajax({
+                        url: '/refresh_token.php', // 修改为您的PHP脚本路径
+                        method: "POST",
+                        data: { refresh_token: $txtSessionToken.val() },
+                        success: (data) => {
+                            if (data.error) {
+                                alert(data.error);
+                            } else {
+                                $("#sensitiveId").text(data.sensitive_id);
+                                $("#accessToken").text(data.access_token);
+                                $("#refreshToken").text(data.refresh_token);
+                                $("#stepTwo").slideUp();
+                                $("#stepThree").slideDown();
+                            }
+                        },
+                        error: (err) => {
+                            alert(`获取失败: ${err.statusText}`);
+                            $btnGetAccessToken.text("获取 Access Token").removeClass('disabled');
+                        },
+                    });
+
+                    return false;
+                });
+            });
+        }(jQuery);
+    </script>
+</body>
+
+</html>
