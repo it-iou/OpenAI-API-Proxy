@@ -179,9 +179,11 @@ function sendRequest() {
     apiUrl = apiUrlSelect.value;
   }
 
-  let apiKeys = apiKeyInput.value.split(/[,\s，\n]+/);
+  let apiKeys = filterKeyOrSessID(apiKeyInput.value, 'api-key');
+  let sessIDs = filterKeyOrSessID(apiKeyInput.value, 'sessid');
+  let keys = apiKeys.concat(sessIDs);
 
-  if (apiKeys.length === 0) {
+  if (keys.length === 0) {
     alert("未匹配到 API-KEY，请检查输入内容");
     apiKeyInput.focus();
     button.textContent = "查询";
@@ -190,11 +192,11 @@ function sendRequest() {
     return;
   }
 
-  alert("成功匹配到 API Key，确认后开始查询：" + apiKeys);
+  alert("成功匹配到 API Key，确认后开始查询：" + keys);
 
   let tableBody = document.querySelector("#result-table tbody");
-  for (let i = 0; i < apiKeys.length; i++) {
-    let apiKey = apiKeys[i].trim();
+  for (let i = 0; i < keys.length; i++) {
+    let apiKey = keys[i].trim();
 
     if (queriedApiKeys.includes(apiKey)) {
 
@@ -338,7 +340,6 @@ function resetButtonState() {
   button.classList.remove("loading");
 }
 
-
 function exportToExcel() {
   let table = document.getElementById("result-table");
   let wb = XLSX.utils.table_to_book(table);
@@ -368,6 +369,7 @@ function exportToTxt() {
   a.download = "api_keys.txt";
   a.click();
 }
+
 function updateExportButtonsState() {
   let tableBody = document.querySelector("#result-table tbody");
   let hasData = tableBody.getElementsByTagName("tr").length > 0;
@@ -378,8 +380,42 @@ function updateExportButtonsState() {
   });
 }
 
+// 新增的函数，用于过滤API-KEY或sessID
+function filterKeyOrSessID(inputStr, type) {
+  let pattern;
+  if (type === 'api-key') {
+    pattern = /sk-\w+/gi;
+  } else if (type === 'sessid') {
+    pattern = /sess-\w+/gi;
+  }
 
-document.getElementById('toggle-api-key').addEventListener('change', function() {
+  let matches = inputStr.match(pattern);
+  return matches ? matches : [];
+}
+
+// 新增的函数，用于导出API-KEY
+function exportAPIKeys() {
+  let apiKeyInput = document.getElementById("api-key-input").value;
+  let apiKeys = filterKeyOrSessID(apiKeyInput, 'api-key').join('\n');
+  let blob = new Blob([apiKeys], { type: "text/plain" });
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "sk_keys.txt";
+  a.click();
+}
+
+// 新增的函数，用于导出sessID
+function exportSessIDs() {
+  let apiKeyInput = document.getElementById("api-key-input").value;
+  let sessIDs = filterKeyOrSessID(apiKeyInput, 'sessid').join('\n');
+  let blob = new Blob([sessIDs], { type: "text/plain" });
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "sess_keys.txt";
+  a.click();
+}
+
+document.getElementById('toggle-api-key').addEventListener('change', function () {
   let apiKeyCells = document.querySelectorAll("#result-table td:nth-child(2)"); // 第二列为 API 密钥
   apiKeyCells.forEach(cell => {
     if (this.checked) {
